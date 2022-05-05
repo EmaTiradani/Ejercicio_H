@@ -1,19 +1,21 @@
-package main.java.controller;
+package main.java.presenter;
 
 import main.java.model.NotesModel;
+import main.java.model.Note;
+import main.java.model.NotesModelListener;
 import main.java.views.NoteEditorView;
 import main.java.views.NoteEditorViewImpl;
 import main.java.views.NoteListerView;
 import main.java.views.NoteListerViewImpl;
 
-public class NotesControllerImpl implements NotesController {
+public class NotesPresenterImpl implements NotesPresenter {
 
   private NotesModel notesModel;
   private NoteEditorView noteEditorView;
   private NoteListerView noteListerView;
   private Thread taskThread;
 
-  public NotesControllerImpl(NotesModel notesModel) {
+  public NotesPresenterImpl(NotesModel notesModel) {
     this.notesModel = notesModel;
   }
 
@@ -32,8 +34,10 @@ public class NotesControllerImpl implements NotesController {
     this.noteListerView = noteListerView;
   }
 
-  @Override public void onEventUpdate(String title, String contentText) {
-
+  @Override public void onEventUpdate(/*String title, String contentText*/) {
+//noteTitleTF.getText(), contentTextTP.getText()
+    String title = noteEditorView.getNoteTitleTF();
+    String contentText = noteEditorView.getContentTextTP();
     taskThread = new Thread(() -> {
       noteEditorView.startWaitingStatus();
       notesModel.updateNote(title, contentText);
@@ -43,7 +47,8 @@ public class NotesControllerImpl implements NotesController {
   }
 
   @Override
-  public void onEventSelectedNoteTitle(String title) {
+  public void onEventSelectedNoteTitle(/*String title*/) {//TODO tomar los datos necesarios de la vista,
+    String title = noteListerView.getNoteFromListInternalModel();
     taskThread = new Thread(() -> {
       noteListerView.selectNone();
       createAndShowViewEditorViewWhenNecesary();
@@ -67,12 +72,27 @@ public class NotesControllerImpl implements NotesController {
     }
   }
 
-
   @Override
   public void editorClosed() {  noteEditorView = null; }
 
   @Override
   public boolean isActivellyWorking(){
     return taskThread.isAlive();
+  }
+
+  private void initListeners() {
+
+    notesModel.addListener(new NotesModelListener() {
+      @Override public void didUpdateNote() {
+        //updateFieldsOfStoredNote();TODO aca hay que pedir datos cambiados y darselos formateados a la vista
+        noteEditorView.updateNoteFields(notesModel.getLastUpdatedNote());
+      }
+      @Override public void didSelectNote() {
+        //updateFieldsOfSelectedNote();} TODO same
+        noteEditorView.updateNoteFields(notesModel.getSelectedNote());
+      }
+
+    });
+
   }
 }

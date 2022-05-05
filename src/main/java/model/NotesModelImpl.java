@@ -38,7 +38,7 @@ public class NotesModelImpl implements NotesModel {
       lastStoredNote = noteToUpdate;
   }
 
-  private void notifyUpdateListener() {
+  private void notifyUpdateListener() {//TODO esto tiene que avisarle al presenter, no a la vista, luego el presenter entrega datos formateados a la view
     for (NotesModelListener listener: listeners) {
       listener.didUpdateNote();
     }

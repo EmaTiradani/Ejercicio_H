@@ -1,9 +1,9 @@
-package main.java.controller;
+package main.java.presenter;
 
 import main.java.views.NoteEditorView;
 import main.java.views.NoteListerView;
 
-public interface NotesController {
+public interface NotesPresenter {
 
   void start();
 
@@ -11,9 +11,9 @@ public interface NotesController {
 
   void setNoteListerView(NoteListerView noteListerView);
 
-  void onEventUpdate(String title, String contentText);
+  void onEventUpdate(/*String title, String contentText*/);
 
-  void onEventSelectedNoteTitle(String title);
+  void onEventSelectedNoteTitle(/*String title*/);
 
   void onEventCreateNewNote();
 

@@ -1,5 +1,7 @@
 package main.java.views;
 
+import main.java.model.Note;
+
 import java.awt.*;
 
 public interface NoteEditorView extends BaseView{
@@ -16,4 +18,10 @@ public interface NoteEditorView extends BaseView{
   String getTextContent();
 
     void cleanFields();
+
+  String getNoteTitleTF();
+
+  String getContentTextTP();
+
+  void updateNoteFields(Note note);
 }

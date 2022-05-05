@@ -1,14 +1,10 @@
 package main.java.views;
 
-import main.java.controller.NotesController;
+import main.java.presenter.NotesPresenter;
 import main.java.model.NotesModel;
-import main.java.model.NotesModelListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
 
 public class NoteListerViewImpl implements NoteListerView{
 
@@ -17,7 +13,7 @@ public class NoteListerViewImpl implements NoteListerView{
     private JButton createNewNoteBtn;
 
     DefaultListModel<String> notesListInternalModel = new DefaultListModel<>();
-    NotesController notesController;
+    NotesPresenter notesPresenter;
     NotesModel notesModel;
 
     @Override
@@ -34,8 +30,8 @@ public class NoteListerViewImpl implements NoteListerView{
         frame.setVisible(true);
     }
 
-    public NoteListerViewImpl(NotesController notesController, NotesModel notesModel) {
-        this.notesController = notesController;
+    public NoteListerViewImpl(NotesPresenter notesPresenter, NotesModel notesModel) {
+        this.notesPresenter = notesPresenter;
         this.notesModel = notesModel;
         initListeners();
         notesJList.setModel(notesListInternalModel);
@@ -54,21 +50,30 @@ public class NoteListerViewImpl implements NoteListerView{
     }
 
     private void initListeners() {
-        notesModel.addListener(new NotesModelListener() {
+        /*notesModel.addListener(new NotesModelListener() {
             @Override public void didUpdateNote() {
                 updateNoteList();
             }
             @Override public void didSelectNote() { }
-        });
+        });*/
 
         notesJList.addListSelectionListener(listSelectionEvent -> {
-            int selectedIndex = notesJList.getSelectedIndex();
+            /*int selectedIndex = notesJList.getSelectedIndex();
             if(selectedIndex >= 0)
-                notesController.onEventSelectedNoteTitle(notesListInternalModel.elementAt(selectedIndex));
+                notesController.onEventSelectedNoteTitle(/*notesListInternalModel.elementAt(selectedIndex));*/
+            notesPresenter.onEventSelectedNoteTitle();
         });
 
         createNewNoteBtn.addActionListener(actionEvent -> {
-            notesController.onEventCreateNewNote();
+            notesPresenter.onEventCreateNewNote();
         });
+    }
+
+    public String getNoteFromListInternalModel(){
+        String note=null;
+        int selectedIndex = notesJList.getSelectedIndex();
+        if(selectedIndex >= 0)
+            note = notesListInternalModel.elementAt(selectedIndex);
+        return note;
     }
 }

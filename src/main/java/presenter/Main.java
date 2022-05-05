@@ -1,13 +1,9 @@
-package main.java.controller;
+package main.java.presenter;
 
 import main.java.model.NotesModel;
 import main.java.model.NotesModelImpl;
 import main.java.model.repository.NonPersistentNotesRepository;
 import main.java.utils.CurrentDateManager;
-import main.java.views.*;
-
-import javax.swing.*;
-import java.util.Random;
 
 public class Main {
 
@@ -17,7 +13,7 @@ public class Main {
     model.setDateManager(new CurrentDateManager());
     model.setNotesRepository(new NonPersistentNotesRepository());
 
-    NotesController controller = new NotesControllerImpl(model);
+    NotesPresenter controller = new NotesPresenterImpl(model);
 
     controller.start();
   }
