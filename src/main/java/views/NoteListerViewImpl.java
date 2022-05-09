@@ -56,6 +56,9 @@ public class NoteListerViewImpl implements NoteListerView{
         return note;
     }
 
+    public void setJlistIndex(int index){
+        notesJList.setSelectedIndex(index);
+    }
 
     private void initListeners() {
 

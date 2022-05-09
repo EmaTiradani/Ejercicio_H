@@ -12,4 +12,6 @@ public interface NoteListerView extends BaseView {
 
     void setNoteOnInternalModel(String name, int index);
 
+    void setJlistIndex(int index);
+
 }
