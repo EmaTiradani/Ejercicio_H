@@ -49,8 +49,6 @@ public class EjGTests {
         noteListerView = new NoteListerViewImpl(notesListerPresenter);
         notesListerPresenter.setNoteListerView(noteListerView);
         date = new CurrentDateManager();
-        /*controller.setNoteEditorView(noteEditorView);
-        controller.setNoteListerView(noteListerView);*/
     }
 
     @Test(timeout = 500)
@@ -149,7 +147,6 @@ public class EjGTests {
                 notesListerPresenter.setNoteListerView(noteListerView);
                 noteListerView.setNoteOnInternalModel("No me cambies",0);
                 noteListerView.setJlistIndex(0);//??
-                notesListerPresenter.onEventSelectedNoteTitle();
                 waitForControllerTask();
                 assertEquals(DateFormat.getTimeInstance().format(fixedDate), noteEditorView.getUpdateText());
             }
