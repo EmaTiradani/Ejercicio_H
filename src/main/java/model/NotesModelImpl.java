@@ -23,9 +23,8 @@ public class NotesModelImpl implements NotesModel {
 
   @Override public  void updateNote(String title, String content) {
     if(Note.isValidTitleForNote(title)){
-      WaitSimulator.simulateLongWait();
+      WaitSimulator.simulateShortWait();
       updateNoteNow(title, content);
-      notifyUpdateListener();
     }
   }
 
@@ -34,29 +33,37 @@ public class NotesModelImpl implements NotesModel {
     noteToUpdate.setName(title);
     noteToUpdate.setTextContent(content);
     noteToUpdate.setLastUpdate(dateManager.getDate());
-    if(notesRepository.storeNote(noteToUpdate))
+    if(notesRepository.storeNote(noteToUpdate)) {
       lastStoredNote = noteToUpdate;
+      notifyUpdateListener();
+    }
+    else{
+      lastStoredNote = noteToUpdate;
+      notifyCreationListener();
+    }
   }
 
-  private void notifyUpdateListener() {//TODO esto tiene que avisarle al presenter, no a la vista, luego el presenter entrega datos formateados a la view
+  @Override
+  public void selectNote(String noteTitle) {
+    WaitSimulator.simulateShortWait();
+    selectedNote = notesRepository.retreiveNote(noteTitle);
+    notifySelectionListener();
+  }
+
+
+  private void notifyUpdateListener() {
     for (NotesModelListener listener: listeners) {
       listener.didUpdateNote();
     }
   }
-
-
-  @Override
-  public void selectNote(String noteTitle) {
-      WaitSimulator.simulateShortWait();
-      selectedNote = notesRepository.retreiveNote(noteTitle);
-      notifySelectionListener();
+  private void notifyCreationListener(){
+    for (NotesModelListener listener: listeners) {
+      listener.didCreateNote();
+    }
   }
-
-
   private void notifySelectionListener() {
     for (NotesModelListener listener: listeners) {
       listener.didSelectNote();
     }
   }
-
 }

@@ -1,16 +1,10 @@
 package tests.java;
 
-import main.java.presenter.NotesPresenter;
-import main.java.presenter.NotesPresenterImpl;
+import main.java.presenter.NotesEditorPresenter;
+import main.java.presenter.NotesListerPresenter;
 import main.java.model.NotesModel;
-import main.java.model.NotesModelImpl;
-import main.java.model.repository.NonPersistentNotesRepository;
-import main.java.utils.WaitSimulator;
 import main.java.views.NoteEditorView;
-import main.java.views.NoteEditorViewImpl;
 import main.java.views.NoteListerView;
-import main.java.views.NoteListerViewImpl;
-import org.junit.Before;
 
 import java.util.Date;
 
@@ -20,12 +14,14 @@ import static org.junit.Assert.assertEquals;
 public class EjGTests {
 
     NotesModel model;
-    NotesPresenter controller;
+    //NotesPresenter controller;
+    NotesEditorPresenter notesEditorPresenter;
+    NotesListerPresenter notesListerPresenter;
     NoteEditorView noteEditorView;
     NoteListerView noteListerView;
     Date fixedDate;
 
-    @Before
+   /* @Before
     public void setUp() throws Exception {
         WaitSimulator.timeBase = 0;
 
@@ -34,13 +30,14 @@ public class EjGTests {
         model.setDateManager(new StubbedDateManager(fixedDate));
         model.setNotesRepository(new NonPersistentNotesRepository());
 
-        controller = new NotesPresenterImpl(model);
-        noteEditorView = new NoteEditorViewImpl(controller, model);
+        //controller = new NotesEditorPresenterImpl();
+        notesEditorPresenter = new NotesEditorPresenterImpl();
+        noteEditorView = new NoteEditorViewImpl(controller);
         noteListerView = new NoteListerViewImpl(controller, model);
         controller.setNoteEditorView(noteEditorView);
         controller.setNoteListerView(noteListerView);
     }
-/*
+
     @Test(timeout = 500)
     public void testSimpleStorage() throws InterruptedException {
         controller.onEventUpdate("Notin", "ouch!");

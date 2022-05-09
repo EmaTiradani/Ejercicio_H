@@ -7,4 +7,6 @@ public interface NoteListerView extends BaseView {
     public void selectNone();
 
     String getNoteFromListInternalModel();
+
+    void updateNoteList(String noteTitleToAddOrUpdate);
 }

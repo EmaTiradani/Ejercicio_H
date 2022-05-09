@@ -10,9 +10,10 @@ public class NonPersistentNotesRepository implements NotesRepository {
 
     @Override
     public boolean storeNote(Note note) {
-        storage.removeIf(storedNote -> storedNote.hasSameTitle(note));
+        boolean updated = false;
+        updated = storage.removeIf(storedNote -> storedNote.hasSameTitle(note));
         storage.add(0,note);
-        return true;
+        return updated;
     }
 
     @Override

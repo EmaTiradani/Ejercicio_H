@@ -4,5 +4,7 @@ public interface NotesModelListener {
 
   void didUpdateNote();
 
-    void didSelectNote();
+  void didSelectNote();
+
+  void didCreateNote();
 }

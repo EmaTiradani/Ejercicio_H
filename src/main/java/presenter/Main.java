@@ -13,9 +13,12 @@ public class Main {
     model.setDateManager(new CurrentDateManager());
     model.setNotesRepository(new NonPersistentNotesRepository());
 
-    NotesPresenter controller = new NotesPresenterImpl(model);
+    NotesListerPresenterImpl lister = new NotesListerPresenterImpl(model);
+    //NotesPresenter editor = new NotesEditorPresenter(model, lister, selectedNoteName);
 
-    controller.start();
+
+    //editor.start();//TODO habria que hacer que el lister te abra un editor nuevo para la nota seleccionada cuando vos la seleccionas
+    lister.start();
   }
 
 

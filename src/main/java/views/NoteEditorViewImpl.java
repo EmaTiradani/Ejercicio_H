@@ -8,9 +8,8 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import main.java.presenter.NotesPresenter;
+import main.java.presenter.NotesEditorPresenter;
 import main.java.model.Note;
-import main.java.model.NotesModel;
 
 public class NoteEditorViewImpl implements NoteEditorView {
   private JTextField noteTitleTF;
@@ -23,12 +22,10 @@ public class NoteEditorViewImpl implements NoteEditorView {
   private JPanel mainPanel;
   private JTextPane contentTextTP;
 
-  private NotesPresenter notesPresenter;
-  private NotesModel notesModel;
+  private NotesEditorPresenter notesPresenter;
 
-  public NoteEditorViewImpl(NotesPresenter notesPresenter, NotesModel notesModel) {
+  public NoteEditorViewImpl(NotesEditorPresenter notesPresenter/*, NotesModel notesModel*/) {
     this.notesPresenter = notesPresenter;
-    this.notesModel = notesModel;
     initListeners();
     lastUpdateLbl.setText("");
   }
@@ -51,8 +48,6 @@ public class NoteEditorViewImpl implements NoteEditorView {
     lastUpdateLbl.setText("");
   }
 
-
-
   @Override
   public Container getContent() {
     return this.content;
@@ -69,28 +64,16 @@ public class NoteEditorViewImpl implements NoteEditorView {
     frame.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
-        notesPresenter.editorClosed();
+        //notesPresenter.editorClosed();
       }
     });
-
   }
 
   private void initListeners() {
     updateBtn.addActionListener(actionEvent -> notesPresenter
-            .onEventUpdate(/*noteTitleTF.getText(), contentTextTP.getText())*/));
-
-    /*notesModel.addListener(new NotesModelListener() {
-      @Override public void didUpdateNote() {
-        updateFieldsOfStoredNote();
-      }
-      @Override public void didSelectNote() { updateFieldsOfSelectedNote();}
-    });*/
+            .onEventUpdate());
 
   }
-
-  private void updateFieldsOfStoredNote(){ updateNoteFields(notesModel.getLastUpdatedNote()); }//TODO se comunica con el modelo
-
-  private void updateFieldsOfSelectedNote() {updateNoteFields(notesModel.getSelectedNote());}//TODO se comunica con el modelo
 
   public void updateNoteFields(Note note) {
     if(note != null){
@@ -99,7 +82,6 @@ public class NoteEditorViewImpl implements NoteEditorView {
       lastUpdateLbl.setText(DateFormat.getTimeInstance().format(note.getLastUpdate()));
     }
   }
-
 
   @Override
   public String getUpdateText(){

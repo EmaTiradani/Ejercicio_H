@@ -1,7 +1,6 @@
 package main.java.views;
 
-import main.java.presenter.NotesPresenter;
-import main.java.model.NotesModel;
+import main.java.presenter.NotesListerPresenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +12,8 @@ public class NoteListerViewImpl implements NoteListerView{
     private JButton createNewNoteBtn;
 
     DefaultListModel<String> notesListInternalModel = new DefaultListModel<>();
-    NotesPresenter notesPresenter;
-    NotesModel notesModel;
+    NotesListerPresenter notesListerPresenter;
+    //NotesModel notesModel;//TODO sacar el modelo de aca
 
     @Override
     public Container getContent() {
@@ -30,9 +29,9 @@ public class NoteListerViewImpl implements NoteListerView{
         frame.setVisible(true);
     }
 
-    public NoteListerViewImpl(NotesPresenter notesPresenter, NotesModel notesModel) {
-        this.notesPresenter = notesPresenter;
-        this.notesModel = notesModel;
+    public NoteListerViewImpl(NotesListerPresenter notesPresenter/*, NotesModel notesModel*/) {//TODO sacar el modelo de aca
+        this.notesListerPresenter = notesPresenter;
+        //this.notesModel = notesModel;//TODO sacar el modelo de aca
         initListeners();
         notesJList.setModel(notesListInternalModel);
 
@@ -43,29 +42,26 @@ public class NoteListerViewImpl implements NoteListerView{
         notesJList.clearSelection();
     }
 
-    private void updateNoteList() {
+    /*private void updateNoteList() {//TODO este metodo pedia las cosas al modelo
         String noteTitleToAddOrUpdate = notesModel.getLastUpdatedNote().getTitle();
+        notesListInternalModel.removeElement(noteTitleToAddOrUpdate);
+        notesListInternalModel.insertElementAt(noteTitleToAddOrUpdate, 0);
+    }*/
+    public void updateNoteList(String noteTitleToAddOrUpdate){
         notesListInternalModel.removeElement(noteTitleToAddOrUpdate);
         notesListInternalModel.insertElementAt(noteTitleToAddOrUpdate, 0);
     }
 
     private void initListeners() {
-        /*notesModel.addListener(new NotesModelListener() {
-            @Override public void didUpdateNote() {
-                updateNoteList();
-            }
-            @Override public void didSelectNote() { }
-        });*/
 
         notesJList.addListSelectionListener(listSelectionEvent -> {
-            /*int selectedIndex = notesJList.getSelectedIndex();
+            int selectedIndex = notesJList.getSelectedIndex();
             if(selectedIndex >= 0)
-                notesController.onEventSelectedNoteTitle(/*notesListInternalModel.elementAt(selectedIndex));*/
-            notesPresenter.onEventSelectedNoteTitle();
+                notesListerPresenter.onEventSelectedNoteTitle();
         });
 
         createNewNoteBtn.addActionListener(actionEvent -> {
-            notesPresenter.onEventCreateNewNote();
+            notesListerPresenter.onEventCreateNewNote();
         });
     }
 
