@@ -9,4 +9,7 @@ public interface NoteListerView extends BaseView {
     String getNoteFromListInternalModel();
 
     void updateNoteList(String noteTitleToAddOrUpdate);
+
+    void setNoteOnInternalModel(String name, int index);
+
 }

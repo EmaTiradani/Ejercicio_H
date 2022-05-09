@@ -27,7 +27,6 @@ public class NotesModelImpl implements NotesModel {
       updateNoteNow(title, content);
     }
   }
-
   private void updateNoteNow(String title, String content) {
     Note noteToUpdate = new Note();
     noteToUpdate.setName(title);

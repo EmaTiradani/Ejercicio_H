@@ -2,7 +2,6 @@ package main.java.presenter;
 
 import main.java.model.NotesModel;
 import main.java.model.NotesModelListener;
-import main.java.views.NoteEditorView;
 import main.java.views.NoteListerView;
 import main.java.views.NoteListerViewImpl;
 
@@ -24,30 +23,18 @@ public class NotesListerPresenterImpl implements NotesListerPresenter{
         initListeners();
     }
 
-    /*@Override
-    public void setNoteEditorView(NoteEditorView noteEditorView) {
-
+    public void setNoteListerView(NoteListerView noteListerView){
+        this.noteListerView=noteListerView;
     }
-
     @Override
-    public void setNoteListerView(NoteListerView noteListerView) {
-
-    }
-
-    @Override
-    public void onEventUpdate() {
-        //NotesEditorPresenter editor = new NotesEditorPresenter(notesModel, this, selectedNoteName);
-    }*/
-
-    @Override
-    public void onEventSelectedNoteTitle() {//Creo un editor y le paso las cosas de la vista, tendria que decirle al modelo que ca
+    public void onEventSelectedNoteTitle() {
         String selectedNoteName = noteListerView.getNoteFromListInternalModel();
         if(editorAlreadyOpen(selectedNoteName)){
             notesModel.selectNote(noteListerView.getNoteFromListInternalModel());
             noteListerView.selectNone();
         }
         else{
-            NotesEditorPresenterImpl editor = new NotesEditorPresenterImpl(notesModel, this, selectedNoteName);
+            NotesEditorPresenterImpl editor = new NotesEditorPresenterImpl(notesModel, selectedNoteName);
             editoresActivos.put(selectedNoteName, editor);
             notesModel.selectNote(noteListerView.getNoteFromListInternalModel());
             noteListerView.selectNone();
@@ -64,7 +51,7 @@ public class NotesListerPresenterImpl implements NotesListerPresenter{
             editoresActivos.get(selectedNoteName).start();
         }
         else{
-            NotesEditorPresenterImpl editor = new NotesEditorPresenterImpl(notesModel, this, selectedNoteName);
+            NotesEditorPresenterImpl editor = new NotesEditorPresenterImpl(notesModel, selectedNoteName);
             editoresActivos.put(selectedNoteName, editor);
             editor.start();
         }
@@ -74,11 +61,11 @@ public class NotesListerPresenterImpl implements NotesListerPresenter{
         return editoresActivos.containsKey(noteTitle);
     }
 
-    /*@Override
-    public boolean isActivellyWorking() {
-        return taskThread.isAlive();//TODO esto es pal tester
+    @Override
+    public void editorClosed(NotesEditorPresenter editor){//TODO Pal tester?
+        editoresActivos.remove(editor);
     }
-*/
+
 
     private void initListeners(){
         notesModel.addListener(new NotesModelListener() {
@@ -89,8 +76,6 @@ public class NotesListerPresenterImpl implements NotesListerPresenter{
 
             @Override
             public void didSelectNote() {
-                /*Note nota = notesModel.getSelectedNote();
-                noteListerView.updateNoteFields(notesModel.getSelectedNote());*/
             }
 
             @Override
@@ -99,8 +84,5 @@ public class NotesListerPresenterImpl implements NotesListerPresenter{
             }
         });
     }
-    @Override
-    public void editorClosed(NotesEditorPresenter editor){//TODO Pal tester?
-        editoresActivos.remove(editor);
-    }
+
 }

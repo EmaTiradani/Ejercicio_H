@@ -1,5 +1,7 @@
 package main.java.presenter;
 
+import main.java.views.NoteListerView;
+
 public interface NotesListerPresenter {
 
     void start();
@@ -11,5 +13,7 @@ public interface NotesListerPresenter {
     //boolean isActivellyWorking();
 
     void editorClosed(NotesEditorPresenter editor);
+
+    void setNoteListerView(NoteListerView noteListerView);
 
 }

@@ -13,7 +13,6 @@ public class NoteListerViewImpl implements NoteListerView{
 
     DefaultListModel<String> notesListInternalModel = new DefaultListModel<>();
     NotesListerPresenter notesListerPresenter;
-    //NotesModel notesModel;//TODO sacar el modelo de aca
 
     @Override
     public Container getContent() {
@@ -29,12 +28,10 @@ public class NoteListerViewImpl implements NoteListerView{
         frame.setVisible(true);
     }
 
-    public NoteListerViewImpl(NotesListerPresenter notesPresenter/*, NotesModel notesModel*/) {//TODO sacar el modelo de aca
+    public NoteListerViewImpl(NotesListerPresenter notesPresenter) {
         this.notesListerPresenter = notesPresenter;
-        //this.notesModel = notesModel;//TODO sacar el modelo de aca
         initListeners();
         notesJList.setModel(notesListInternalModel);
-
     }
 
     @Override
@@ -42,14 +39,13 @@ public class NoteListerViewImpl implements NoteListerView{
         notesJList.clearSelection();
     }
 
-    /*private void updateNoteList() {//TODO este metodo pedia las cosas al modelo
-        String noteTitleToAddOrUpdate = notesModel.getLastUpdatedNote().getTitle();
-        notesListInternalModel.removeElement(noteTitleToAddOrUpdate);
-        notesListInternalModel.insertElementAt(noteTitleToAddOrUpdate, 0);
-    }*/
     public void updateNoteList(String noteTitleToAddOrUpdate){
         notesListInternalModel.removeElement(noteTitleToAddOrUpdate);
         notesListInternalModel.insertElementAt(noteTitleToAddOrUpdate, 0);
+    }
+
+    public void setNoteOnInternalModel(String noteTitle, int index){
+        notesListInternalModel.insertElementAt(noteTitle, index);
     }
 
     private void initListeners() {

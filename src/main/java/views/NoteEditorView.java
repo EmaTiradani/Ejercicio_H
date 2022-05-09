@@ -17,7 +17,7 @@ public interface NoteEditorView extends BaseView{
 
   String getTextContent();
 
-    void cleanFields();
+  void cleanFields();
 
   String getNoteTitleTF();
 

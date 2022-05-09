@@ -13,20 +13,17 @@ public class NotesEditorPresenterImpl implements NotesEditorPresenter {
   private Thread taskThread;
   private String noteName;
 
-  private NotesListerPresenterImpl notesListerPresenter;
 
-
-  public NotesEditorPresenterImpl(NotesModel notesModel, NotesListerPresenterImpl notesListerPresenter, String noteName) {
+  public NotesEditorPresenterImpl(NotesModel notesModel,  String noteName) {
 
     this.notesModel = notesModel;
-    this.notesListerPresenter = notesListerPresenter;
     this.noteName = noteName;
     initListeners();
   }
 
   @Override
   public void start() {
-      noteEditorView = new NoteEditorViewImpl(this/*, notesModel*/);
+      noteEditorView = new NoteEditorViewImpl(this);
       noteEditorView.showView();
   }
 
@@ -42,7 +39,6 @@ public class NotesEditorPresenterImpl implements NotesEditorPresenter {
     taskThread = new Thread(() -> {
       noteEditorView.startWaitingStatus();
       notesModel.updateNote(title, contentText);
-      //noteEditorView.updateNoteFields(notesModel.getLastUpdatedNote());
       noteEditorView.stopWaitingStatus();
     });
     taskThread.start();
