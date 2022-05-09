@@ -48,6 +48,15 @@ public class NoteListerViewImpl implements NoteListerView{
         notesListInternalModel.insertElementAt(noteTitle, index);
     }
 
+    public String getNoteFromListInternalModel(){
+        String note=null;
+        int selectedIndex = notesJList.getSelectedIndex();
+        if(selectedIndex >= 0)
+            note = notesListInternalModel.elementAt(selectedIndex);
+        return note;
+    }
+
+
     private void initListeners() {
 
         notesJList.addListSelectionListener(listSelectionEvent -> {
@@ -59,13 +68,5 @@ public class NoteListerViewImpl implements NoteListerView{
         createNewNoteBtn.addActionListener(actionEvent -> {
             notesListerPresenter.onEventCreateNewNote();
         });
-    }
-
-    public String getNoteFromListInternalModel(){
-        String note=null;
-        int selectedIndex = notesJList.getSelectedIndex();
-        if(selectedIndex >= 0)
-            note = notesListInternalModel.elementAt(selectedIndex);
-        return note;
     }
 }

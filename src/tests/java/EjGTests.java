@@ -146,8 +146,8 @@ public class EjGTests {
                 note4.setTextContent("Gutierrez");
                 note4.setLastUpdate(date.getDate());
                 waitForControllerTask();
-                noteListerView.setNoteOnInternalModel("No me cambies",0);
                 notesListerPresenter.setNoteListerView(noteListerView);
+                noteListerView.setNoteOnInternalModel("No me cambies",0);
                 notesListerPresenter.onEventSelectedNoteTitle();
                 waitForControllerTask();
                 assertEquals(DateFormat.getTimeInstance().format(fixedDate), noteEditorView.getUpdateText());

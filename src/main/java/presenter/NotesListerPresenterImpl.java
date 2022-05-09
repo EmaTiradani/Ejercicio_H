@@ -26,6 +26,7 @@ public class NotesListerPresenterImpl implements NotesListerPresenter{
     public void setNoteListerView(NoteListerView noteListerView){
         this.noteListerView=noteListerView;
     }
+
     @Override
     public void onEventSelectedNoteTitle() {
         String selectedNoteName = noteListerView.getNoteFromListInternalModel();

@@ -14,10 +14,7 @@ public class Main {
     model.setNotesRepository(new NonPersistentNotesRepository());
 
     NotesListerPresenterImpl lister = new NotesListerPresenterImpl(model);
-    //NotesPresenter editor = new NotesEditorPresenter(model, lister, selectedNoteName);
 
-
-    //editor.start();//TODO habria que hacer que el lister te abra un editor nuevo para la nota seleccionada cuando vos la seleccionas
     lister.start();
   }
 
